@@ -1,0 +1,34 @@
+{% extends 'cards/base.html' %}
+{% load i18n %}
+
+{% block header %}
+    <a href="{% url "core:timer-list" %}">
+        {% trans "Active Timers" %}
+    </a>
+{% endblock %}
+
+{% block title %}
+    {% with instances|length as count %}
+        {% blocktrans trimmed count counter=count %}
+            {{ count }} active timer
+        {% plural %}
+            {{ count }} active timers
+        {% endblocktrans %}
+    {% endwith %}
+{% endblock %}
+
+{% block listgroup %}
+    <ul class="list-group list-group-flush">
+    {% for timer in instances %}
+        <a href="{% url 'core:timer-detail' timer.id %}"
+           class="list-group-item list-group-item-action">
+            <strong>{{ timer.title_with_child }}</strong>
+            <p class="text-muted small m-0">
+                {% blocktrans trimmed with start=timer.start|time user=timer.user_username %}
+                    Started by {{ user }} at {{ start }}
+                {% endblocktrans %}
+            </p>
+        </a>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'reports/base.html' %}
+{% load i18n static %}
+
+{% block title %}{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        {% if html %}
+            {{ html|safe }}
+        {% else %}
+            <div class="jumbotron text-center">
+                <i class="icon-sad" aria-hidden="true"></i>
+                {% trans "There is not enough data to generate this report." %}
+                <i class="icon-sad" aria-hidden="true"></i>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static "babybuddy/js/graph.js" %}"></script>
+    <script>Plotly.setPlotConfig({locale: '{{ LOCALE }}'})</script>
+    {{ js|safe }}
+{% endblock %}
